@@ -13,11 +13,13 @@ import {
   StyleSheet,
   Platform,
   Text,
+  TextInput,
   View,
   Alert,
   TouchableOpacity,
   Linking,
   Image,
+  ScrollView,
 } from 'react-native';
 
 import {
@@ -45,6 +47,11 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
 
   componentWillMount(){
     if (isFirstTime) {
@@ -93,62 +100,76 @@ export default class App extends Component<Props> {
     };
 
     return (
-      
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-        {/* <Text>Hello world</Text> */}
-
-        <View style = {{alignItems: 'center'}}>
-          <Greeting name='Rexxar'/>
-          <Greeting name='Valeera'/>
-        </View>
-
-        <Image source = {pic} style = {{width: 193, height: 110}}/>
-
-        <View style = {{alignItems: 'center'}}>
-          <Blink Text = 'Look at me look at me look at me'/>
-        </View>
-
-        <View>
-          <Text style={styles.red}>just red</Text>
-        </View>
-
+      <ScrollView>
         <View style={styles.container}>
           <Text style={styles.welcome}>
-            欢迎使用热更新服务
+            Welcome to React Native!
           </Text>
           <Text style={styles.instructions}>
-            这是版本一 {'\n'}
-            当前包版本号: {packageVersion}{'\n'}
-            当前版本Hash: {currentVersion||'(空)'}{'\n'}
+            To get started, edit App.js
           </Text>
-          <TouchableOpacity onPress={this.checkUpdate}>
-            <Text style={styles.instructions}>
-              点击这里检查更新
-            </Text>
-          </TouchableOpacity>
-      </View>
+          <Text style={styles.instructions}>
+            {instructions}
+          </Text>
+          {/* <Text>Hello world</Text> */}
 
-        <View style={{
-          flex: 1, 
-          flexDirection:'row',
-          justifyContent:'space-between'
-          }}>
-          {/* <View style={{width: 100, height: 20, backgroundColor: styles.red.color }}/> */}
-          <View style={{width: 20, height: 10, backgroundColor: 'powderblue'}}/>
-          <View style={{width: 20, height: 10, backgroundColor: 'skyblue'}} />
-          <View style={{width: 20, height: 10, backgroundColor: 'steelblue'}} />
+          <View style = {{alignItems: 'center'}}>
+            <Greeting name='Rexxar'/>
+            <Greeting name='Valeera'/>
+          </View>
+
+          <TextInput
+            style={{height:40}}
+            placeholder="Type here to translate!"
+            onChangeText={(text)=> this.setState({text})}
+          />
+
+          <Text style={{padding: 10, fontSize: 32}}>
+            {this.state.text.split(' ').map((word) => word && '🍕').join(' ')}
+          </Text>
+
+          {/* <TextState Text = 'input text'/> */}
+          
+          <Image source = {pic} style = {{width: 193, height: 110}}/>
+
+          <View style = {{alignItems: 'center'}}>
+            <Blink Text = 'Look at me look at me look at me'/>
+          </View>
+
+          <View>
+            <Text style={styles.red}>just red</Text>
+          </View>
+
+          <View style={styles.container}>
+            <Text style={styles.welcome}>
+              欢迎使用热更新服务
+            </Text>
+            <Text style={styles.instructions}>
+              这是版本四 {'\n'}
+              当前包版本号: {packageVersion}{'\n'}
+              当前版本Hash: {currentVersion||'(空)'}{'\n'}
+            </Text>
+            <TouchableOpacity onPress={this.checkUpdate}>
+              <Text style={styles.instructions}>
+                点击这里检查更新
+              </Text>
+            </TouchableOpacity>
         </View>
 
-      </View>
+          <View style={{
+            flex: 1, 
+            flexDirection:'row',
+            justifyContent:'space-between',
+            alignItems: 'center',
+            }}>
+            {/* <View style={{width: 100, height: 20, backgroundColor: styles.red.color }}/> */}
+            <View style={{width: 20, height: 10, backgroundColor: 'powderblue'}}/>
+            <View style={{width: 20, height: 10, backgroundColor: 'skyblue'}} />
+            <View style={{width: 20, height: 10, backgroundColor: 'steelblue'}} />
+          </View>
+
+        </View>
+      </ScrollView>  
     );
   }
 };
@@ -160,6 +181,22 @@ class Greeting extends Component {
     );
   }
 };
+
+class TextState extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
+  render() {
+    let resultText = this.state.text.split(' ').map((word) => word && '🍕').join(' ')
+    return (
+      <Text style={{padding: 10, fontSize: 32}}>
+        {resultText}
+      </Text>
+    )
+  }
+}
 
 class Blink extends Component {
   constructor(props) {
@@ -197,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 15,
     textAlign: 'center',
     margin: 10,
   },
@@ -208,7 +245,7 @@ const styles = StyleSheet.create({
   },
   bigblue: {
     color: 'blue',
-    fontSize: 30,
+    fontSize: 10,
     fontWeight: 'bold',
   },
   red:{
